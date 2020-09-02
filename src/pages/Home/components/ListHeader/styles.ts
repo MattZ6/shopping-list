@@ -16,17 +16,18 @@ export const Content = styled.View`
 export const Title = styled.Text`
   font-size: 18px;
   line-height: 24px;
-  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.medium};
   color: ${({ theme }) => theme.texts.primary};
 `;
 
 export const Label = styled.Text`
   font-size: 14px;
   line-height: 20px;
+  font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.texts.primary};
 `;
 
 export const LabelBold = styled.Text`
-  font-weight: bold;
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.texts.primary};
 `;

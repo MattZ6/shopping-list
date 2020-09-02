@@ -18,5 +18,10 @@ declare module 'styled-components' {
       tertiary: string;
       white: string;
     };
+    fonts: {
+      regular: string;
+      medium: string;
+      bold: string;
+    };
   }
 }

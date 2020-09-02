@@ -17,4 +17,9 @@ export default {
     tertiary: '#BBC2CF',
     white: '#FFFFFF',
   },
+  fonts: {
+    regular: 'Roboto-Regular',
+    medium: 'Roboto-Medium',
+    bold: 'Roboto-Bold',
+  },
 } as DefaultTheme;
