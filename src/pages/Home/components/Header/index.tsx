@@ -1,11 +1,28 @@
 import React from 'react';
 
-import { Container, Title } from './styles';
+import IconButton from '../../../../components/IconButton';
+
+import {
+  Container,
+  StatusBarSpace,
+  Content,
+  LeftButtons,
+  RightButtons,
+} from './styles';
 
 const Header: React.FC = () => {
   return (
     <Container>
-      <Title>Lista de compras</Title>
+      <StatusBarSpace />
+
+      <Content>
+        <LeftButtons>{/* <IconButton icon="edit" /> */}</LeftButtons>
+
+        <RightButtons>
+          <IconButton icon="search" />
+          <IconButton icon="more-vert" />
+        </RightButtons>
+      </Content>
     </Container>
   );
 };

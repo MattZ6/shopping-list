@@ -1,13 +1,29 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  align-items: center;
-  justify-content: center;
-
-  height: 186px;
-  /* height: 80px; */
-  padding: 24px 16px 0;
+  height: 80px;
   background: ${({ theme }) => theme.colors.primary};
+`;
+
+export const StatusBarSpace = styled.View`
+  height: 24px;
+`;
+
+export const Content = styled.View`
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 8px;
+`;
+
+export const LeftButtons = styled.View`
+  flex-direction: row;
+`;
+
+export const RightButtons = styled.View`
+  flex-direction: row;
 `;
 
 export const Title = styled.Text`

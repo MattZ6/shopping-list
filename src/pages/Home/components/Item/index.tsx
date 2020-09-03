@@ -3,7 +3,7 @@ import { TouchableNativeFeedback } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import CheckBox from '@react-native-community/checkbox';
 
-import { Container, ContenContent, Title, CheckboxContent } from './styles';
+import { Container, ContenContent, Title, CheckBoxContainer } from './styles';
 
 import { IITem } from './types';
 
@@ -29,7 +29,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
       <ContenContent>
         <Title numberOfLines={1}>{item.title}</Title>
 
-        <CheckboxContent>
+        <CheckBoxContainer>
           <CheckBox
             disabled
             value={isChecked}
@@ -39,7 +39,7 @@ const Item: React.FC<ItemProps> = ({ item }) => {
               false: theme.texts.tertiary,
             }}
           />
-        </CheckboxContent>
+        </CheckBoxContainer>
       </ContenContent>
     </Container>
   );

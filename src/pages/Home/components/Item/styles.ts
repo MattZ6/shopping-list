@@ -8,6 +8,10 @@ export const ContenContent = styled.View`
 
   height: 56px;
   padding: 0 16px;
+  /* 
+  border-bottom-width: 1px;
+  border-color: #f9f9f9;
+  border-style: solid; */
 `;
 
 export const Title = styled.Text`
@@ -18,7 +22,7 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.texts.primary};
 `;
 
-export const CheckboxContent = styled.View`
+export const CheckBoxContainer = styled.View`
   align-items: center;
   justify-content: center;
 

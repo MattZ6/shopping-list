@@ -215,6 +215,7 @@ const Home: React.FC = () => {
         style={{
           flex: 1,
         }}
+        showsVerticalScrollIndicator={false}
         data={data}
         keyExtractor={item => item.key}
         renderItem={({ item }) => item.render()}
