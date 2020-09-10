@@ -4,6 +4,7 @@ export default {
   backgrounds: {
     default: '#FFFFFF',
     listHeader: '#F0F2F4',
+    divider: 'rgba(218,218,218,0.2)',
   },
   ripples: {
     primary: '#dbdfe4',
@@ -14,6 +15,7 @@ export default {
   },
   texts: {
     primary: '#5C6472',
+    primaryLight: '#8793A8',
     tertiary: '#BBC2CF',
     white: '#FFFFFF',
   },

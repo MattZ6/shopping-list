@@ -1,17 +1,28 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 export const Container = styled.TouchableNativeFeedback``;
 
-export const ContenContent = styled.View`
+export const Wrapper = styled.View`
+  height: 56px;
+  padding: 0 16px;
+`;
+
+interface ContentProps {
+  showBorder: boolean;
+}
+
+export const Content = styled.View<ContentProps>`
+  flex: 1;
   flex-direction: row;
   align-items: center;
 
-  height: 56px;
-  padding: 0 16px;
-  /* 
-  border-bottom-width: 1px;
-  border-color: #f9f9f9;
-  border-style: solid; */
+  ${({ showBorder }) =>
+    showBorder &&
+    css`
+      border-bottom-width: 1px;
+      border-style: solid;
+      border-color: ${({ theme }) => theme.backgrounds.divider};
+    `}
 `;
 
 export const Title = styled.Text`

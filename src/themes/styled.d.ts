@@ -5,6 +5,7 @@ declare module 'styled-components' {
     backgrounds: {
       default: string;
       listHeader: string;
+      divider: string;
     };
     ripples: {
       primary: string;
@@ -15,6 +16,7 @@ declare module 'styled-components' {
     };
     texts: {
       primary: string;
+      primaryLight: string;
       tertiary: string;
       white: string;
     };

@@ -1,12 +1,16 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { StatusBar, FlatList, View } from 'react-native';
+import { useTheme } from 'styled-components/native';
+
+import IconButton from '../../components/IconButton';
+import BottomSheet from '../../components/BottomSheet';
+import NewItem from '../../components/NewItem';
 
 import Header from './components/Header';
 import ListHeader from './components/ListHeader';
 import ItemList from './components/ItemList';
-import { IITem } from './components/Item/types';
 
-import { Container } from './styles';
+import { Container, FabContainer } from './styles';
 
 interface ListItem {
   key: string;
@@ -15,6 +19,10 @@ interface ListItem {
 }
 
 const Home: React.FC = () => {
+  const theme = useTheme();
+
+  const [isOpen, setIsOpen] = useState(false);
+
   const { data, indices } = useMemo(() => {
     const items: ListItem[] = [
       {
@@ -215,12 +223,28 @@ const Home: React.FC = () => {
         style={{
           flex: 1,
         }}
+        contentContainerStyle={{
+          paddingBottom: 64,
+        }}
         showsVerticalScrollIndicator={false}
         data={data}
         keyExtractor={item => item.key}
         renderItem={({ item }) => item.render()}
         stickyHeaderIndices={indices}
       />
+
+      <FabContainer>
+        <IconButton
+          icon="add"
+          withElevation
+          backgroundColor={theme.colors.success}
+          onPress={() => setIsOpen(true)}
+        />
+      </FabContainer>
+
+      <BottomSheet isVisible={isOpen} onClose={() => setIsOpen(false)}>
+        <NewItem />
+      </BottomSheet>
     </Container>
   );
 };

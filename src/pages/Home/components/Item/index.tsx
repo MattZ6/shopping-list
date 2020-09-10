@@ -3,15 +3,22 @@ import { TouchableNativeFeedback } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import CheckBox from '@react-native-community/checkbox';
 
-import { Container, ContenContent, Title, CheckBoxContainer } from './styles';
+import {
+  Container,
+  Wrapper,
+  Content,
+  Title,
+  CheckBoxContainer,
+} from './styles';
 
 import { IITem } from './types';
 
 interface ItemProps {
   item: IITem;
+  hideBorder?: boolean;
 }
 
-const Item: React.FC<ItemProps> = ({ item }) => {
+const Item: React.FC<ItemProps> = ({ item, hideBorder = false }) => {
   const [isChecked, setIsChecked] = useState(item.isChecked);
 
   const theme = useTheme();
@@ -26,21 +33,23 @@ const Item: React.FC<ItemProps> = ({ item }) => {
       onPress={toggleCheck}
       background={TouchableNativeFeedback.Ripple(theme.ripples.primary, false)}
     >
-      <ContenContent>
-        <Title numberOfLines={1}>{item.title}</Title>
+      <Wrapper>
+        <Content showBorder={!hideBorder}>
+          <Title numberOfLines={1}>{item.title}</Title>
 
-        <CheckBoxContainer>
-          <CheckBox
-            disabled
-            value={isChecked}
-            onValueChange={toggleCheck}
-            tintColors={{
-              true: theme.colors.primary,
-              false: theme.texts.tertiary,
-            }}
-          />
-        </CheckBoxContainer>
-      </ContenContent>
+          <CheckBoxContainer>
+            <CheckBox
+              disabled
+              value={isChecked}
+              onValueChange={toggleCheck}
+              tintColors={{
+                true: theme.colors.primary,
+                false: theme.texts.tertiary,
+              }}
+            />
+          </CheckBoxContainer>
+        </Content>
+      </Wrapper>
     </Container>
   );
 };
