@@ -19,7 +19,7 @@ const Header: React.FC = () => {
         <LeftButtons>{/* <IconButton icon="edit" /> */}</LeftButtons>
 
         <RightButtons>
-          <IconButton icon="search" size="small" />
+          {/* <IconButton icon="search" size="small" /> */}
           <IconButton icon="more-vert" size="small" />
         </RightButtons>
       </Content>

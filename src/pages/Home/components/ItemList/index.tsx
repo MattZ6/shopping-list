@@ -1,21 +1,23 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import Item from '../Item';
-import { IITem } from '../Item/types';
+import ListItem from '../ListItem';
+import { Item } from '../../../../atoms/items';
 
 import { Container } from './styles';
 
 interface ItemListProps {
-  items: IITem[];
+  items: Item[];
 }
 
 const ItemList: React.FC<ItemListProps> = ({ items }) => {
-  const itemsCount = useMemo(() => items.length, [items]);
-
   return (
     <Container>
       {items.map((item, index) => (
-        <Item item={item} key={item.id} hideBorder={index === itemsCount - 1} />
+        <ListItem
+          key={item.key}
+          item={item}
+          hideBorder={index === items.length - 1}
+        />
       ))}
     </Container>
   );

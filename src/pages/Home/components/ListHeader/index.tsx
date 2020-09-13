@@ -19,8 +19,8 @@ const ListHeader: React.FC<ListHeaderProps> = ({
         <Title>{title}</Title>
 
         <Label>
-          <LabelBold>{total}</LabelBold> de{' '}
-          <LabelBold>{totalChecked}</LabelBold>
+          <LabelBold>{totalChecked}</LabelBold> de{' '}
+          <LabelBold>{total}</LabelBold>
         </Label>
       </Content>
 

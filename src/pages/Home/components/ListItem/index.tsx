@@ -1,7 +1,13 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useCallback, memo } from 'react';
 import { TouchableNativeFeedback } from 'react-native';
 import { useTheme } from 'styled-components/native';
 import CheckBox from '@react-native-community/checkbox';
+import { useDispatch } from 'react-redux';
+
+import { toggleItem } from '../../../../store/modules/items/actions';
+
+import { Item } from '../../../../atoms/items';
+// import useItems from '../../../../hooks/items';
 
 import {
   Container,
@@ -11,21 +17,24 @@ import {
   CheckBoxContainer,
 } from './styles';
 
-import { IITem } from './types';
-
-interface ItemProps {
-  item: IITem;
+interface ListItemProps {
+  item: Item;
   hideBorder?: boolean;
 }
 
-const Item: React.FC<ItemProps> = ({ item, hideBorder = false }) => {
-  const [isChecked, setIsChecked] = useState(item.isChecked);
-
+const ListItem: React.FC<ListItemProps> = ({ item, hideBorder = false }) => {
   const theme = useTheme();
 
+  const dispatch = useDispatch();
+  // const { toggleItem } = useItems();
+
   const toggleCheck = useCallback(() => {
-    setIsChecked(state => !state);
-  }, []);
+    dispatch(toggleItem(item.key));
+  }, [dispatch, item.key]);
+
+  // const toggleCheck = useCallback(() => {
+  //   toggleItem(item.key);
+  // }, [toggleItem, item.key]);
 
   return (
     <Container
@@ -40,7 +49,7 @@ const Item: React.FC<ItemProps> = ({ item, hideBorder = false }) => {
           <CheckBoxContainer>
             <CheckBox
               disabled
-              value={isChecked}
+              value={item.selected}
               onValueChange={toggleCheck}
               tintColors={{
                 true: theme.colors.primary,
@@ -54,4 +63,4 @@ const Item: React.FC<ItemProps> = ({ item, hideBorder = false }) => {
   );
 };
 
-export default memo(Item);
+export default memo(ListItem);

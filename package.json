@@ -12,10 +12,13 @@
   },
   "dependencies": {
     "@react-native-community/checkbox": "^0.5.0",
+    "immer": "^7.0.9",
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-modal": "^11.5.6",
     "react-native-vector-icons": "^7.0.0",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5",
     "styled-components": "^5.1.1"
   },
   "devDependencies": {
@@ -25,6 +28,7 @@
     "@types/jest": "^25.2.3",
     "@types/react-native": "^0.63.2",
     "@types/react-native-vector-icons": "^6.4.5",
+    "@types/react-redux": "^7.1.9",
     "@types/react-test-renderer": "^16.9.2",
     "@types/styled-components": "^5.1.2",
     "@typescript-eslint/eslint-plugin": "^2.27.0",

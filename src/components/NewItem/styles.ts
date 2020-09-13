@@ -24,7 +24,7 @@ export const Input = styled.TextInput`
 
 export const ButtonsContainer = styled.View`
   flex-direction: row;
-  padding: 16px;
+  padding: 20px 16px 16px;
 `;
 
 export const CancelButton = styled(ButtonOutline).attrs({
