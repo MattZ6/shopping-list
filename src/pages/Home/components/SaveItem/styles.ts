@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 
-import ButtonOutline, { ButtonOutlineProps } from '../ButtonOutline';
-import Button, { ButtonProps } from '../Button';
+import ButtonOutline, {
+  ButtonOutlineProps,
+} from '../../../../components/ButtonOutline';
+import Button, { ButtonProps } from '../../../../components/Button';
 
 export const Container = styled.View`
   padding-top: 8px;
@@ -36,6 +38,6 @@ export const CancelButton = styled(ButtonOutline).attrs({
 export const SubmitButton = styled(Button).attrs({
   containerStyle: {
     flex: 2,
-    marginLeft: 8,
+    marginLeft: 12,
   },
 } as ButtonProps)``;

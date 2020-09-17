@@ -1,9 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
 import { ThemeProvider } from 'styled-components/native';
-import { Provider } from 'react-redux';
 
-import store from './src/store';
+import database from './src/database';
 
 import light from './src/themes/light';
 
@@ -11,7 +11,7 @@ import Home from './src/pages/Home';
 
 const App: React.FC = () => {
   return (
-    <Provider store={store}>
+    <DatabaseProvider database={database}>
       <ThemeProvider theme={light}>
         <StatusBar
           translucent
@@ -21,7 +21,7 @@ const App: React.FC = () => {
 
         <Home />
       </ThemeProvider>
-    </Provider>
+    </DatabaseProvider>
   );
 };
 

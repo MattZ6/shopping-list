@@ -1,14 +1,30 @@
-import React, { memo, useEffect, useCallback, useRef, useMemo } from 'react';
+import React, {
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import {
   Modal,
-  View,
   Animated,
   useWindowDimensions,
   PanResponder,
-  TouchableWithoutFeedback,
 } from 'react-native';
 
-import { useTheme } from 'styled-components/native';
+import {
+  Container,
+  BackdropButton,
+  Backdrop,
+  Sheet,
+  SheetHeader,
+  SheetHeaderDragabble,
+} from './styles';
+
+export interface BottomSheetHandles {
+  close: () => void;
+}
 
 interface BottomSheetProps {
   isVisible?: boolean;
@@ -16,17 +32,13 @@ interface BottomSheetProps {
   children: JSX.Element;
 }
 
-const BottomSheet: React.FC<BottomSheetProps> = ({
-  isVisible,
-  onClose,
-  children,
-}) => {
+const BottomSheet: React.ForwardRefRenderFunction<
+  BottomSheetHandles,
+  BottomSheetProps
+> = ({ isVisible, onClose, children }, ref) => {
   const { height } = useWindowDimensions();
 
-  const theme = useTheme();
-
   const panY = useRef(new Animated.Value(height)).current;
-  const containerRef = useRef<View>(null);
 
   const opacity = panY.interpolate({
     inputRange: [0, height],
@@ -35,7 +47,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
   const scaleX = panY.interpolate({
     inputRange: [-0, height],
-    outputRange: [1, 0.3],
+    outputRange: [1, 0.2],
     extrapolate: 'clamp',
   });
 
@@ -61,13 +73,13 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     });
   }, [panY, height]);
 
-  const handleClose = useCallback(() => {
+  const close = useCallback(() => {
     closeAnimation.start(() => {
+      panY.setValue(height);
+
       if (onClose) {
         onClose();
       }
-
-      panY.setValue(height);
     });
   }, [onClose, panY, height, closeAnimation]);
 
@@ -82,7 +94,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         }
 
         if (gestureState.dy >= 125 || gestureState.vy >= 0.75) {
-          handleClose();
+          close();
 
           return;
         }
@@ -94,84 +106,39 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
     }),
   ).current;
 
+  useImperativeHandle(ref, () => ({
+    close,
+  }));
+
   useEffect(() => {
     if (isVisible) {
       openAnimation.start();
     }
-  }, [isVisible, openAnimation, handleClose]);
+  }, [isVisible, openAnimation]);
 
   return (
-    <View style={{ position: 'relative' }}>
+    <Container>
       <Modal
         transparent
         presentationStyle="overFullScreen"
         statusBarTranslucent
         visible={isVisible}
-        onRequestClose={handleClose}
+        onRequestClose={close}
         hardwareAccelerated
       >
-        <TouchableWithoutFeedback onPress={handleClose} style={{ flex: 1 }}>
-          <Animated.View
-            style={[
-              { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)' },
-              {
-                opacity,
-              },
-            ]}
-          />
-        </TouchableWithoutFeedback>
-        <Animated.View
-          ref={containerRef}
-          style={[
-            {
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              backgroundColor: 'white',
-              borderTopRightRadius: 12,
-              borderTopLeftRadius: 12,
-            },
-            {
-              transform: [{ translateY }],
-            },
-          ]}
-        >
-          <View
-            style={{
-              backgroundColor: 'transparent',
-              paddingTop: 16,
-              paddingBottom: 24,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderTopRightRadius: 12,
-              borderTopLeftRadius: 12,
-            }}
-            {...panResponder.panHandlers}
-          >
-            <Animated.View
-              style={[
-                {
-                  width: '30%',
-                  height: 4,
-                  borderRadius: 8,
-                  backgroundColor: theme.backgrounds.listHeader,
-                },
-                {
-                  transform: [
-                    {
-                      scaleX,
-                    },
-                  ],
-                },
-              ]}
-            />
-          </View>
+        <BackdropButton onPress={close}>
+          <Backdrop style={{ opacity }} />
+        </BackdropButton>
+
+        <Sheet style={{ transform: [{ translateY }] }}>
+          <SheetHeader {...panResponder.panHandlers}>
+            <SheetHeaderDragabble style={{ transform: [{ scaleX }] }} />
+          </SheetHeader>
           {children}
-        </Animated.View>
+        </Sheet>
       </Modal>
-    </View>
+    </Container>
   );
 };
 
-export default memo(BottomSheet);
+export default React.memo(forwardRef(BottomSheet));

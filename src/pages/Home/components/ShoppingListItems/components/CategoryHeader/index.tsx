@@ -2,13 +2,13 @@ import React from 'react';
 
 import { Container, Content, Title, Label, LabelBold } from './styles';
 
-interface ListHeaderProps {
+interface CategoryHeaderProps {
   title: string;
   total: number;
   totalChecked: number;
 }
 
-const ListHeader: React.FC<ListHeaderProps> = ({
+const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   title,
   total = 0,
   totalChecked = 0,
@@ -29,4 +29,4 @@ const ListHeader: React.FC<ListHeaderProps> = ({
   );
 };
 
-export default ListHeader;
+export default CategoryHeader;
