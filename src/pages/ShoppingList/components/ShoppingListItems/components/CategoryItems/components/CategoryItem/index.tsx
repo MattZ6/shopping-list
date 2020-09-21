@@ -6,7 +6,7 @@ import withObservables from '@nozbe/with-observables';
 
 import Item from '../../../../../../../../models/Item';
 
-import EditItem from '../../../../../SaveItem';
+import EditItem from '../../../../../../../../components/SaveItem';
 
 import BottomMenu from './components/BottomMenu';
 

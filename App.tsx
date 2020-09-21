@@ -7,7 +7,7 @@ import database from './src/database';
 
 import light from './src/themes/light';
 
-import Home from './src/pages/Home';
+import ShoppingList from './src/pages/ShoppingList';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const App: React.FC = () => {
           barStyle="light-content"
         />
 
-        <Home />
+        <ShoppingList />
       </ThemeProvider>
     </DatabaseProvider>
   );

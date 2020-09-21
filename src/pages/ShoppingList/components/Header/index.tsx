@@ -16,11 +16,13 @@ const Header: React.FC = () => {
       <StatusBarSpace />
 
       <Content>
-        <LeftButtons>{/* <IconButton icon="edit" /> */}</LeftButtons>
+        <LeftButtons>
+          <IconButton icon="arrow-back" />
+        </LeftButtons>
 
         <RightButtons>
           {/* <IconButton icon="search" size="small" /> */}
-          <IconButton icon="more-vert" size="small" />
+          <IconButton icon="more-vert" />
         </RightButtons>
       </Content>
     </Container>

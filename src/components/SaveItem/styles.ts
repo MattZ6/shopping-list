@@ -1,9 +1,7 @@
 import styled from 'styled-components/native';
 
-import ButtonOutline, {
-  ButtonOutlineProps,
-} from '../../../../components/ButtonOutline';
-import Button, { ButtonProps } from '../../../../components/Button';
+import ButtonOutline, { ButtonOutlineProps } from '../ButtonOutline';
+import Button, { ButtonProps } from '../Button';
 
 export const Container = styled.View`
   padding-top: 8px;

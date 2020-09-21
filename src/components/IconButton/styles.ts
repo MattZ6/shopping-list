@@ -1,28 +1,15 @@
 import styled, { css } from 'styled-components/native';
+import VectorIcon from 'react-native-vector-icons/MaterialIcons';
 
 interface ContainerProps {
-  size: 'small' | 'default';
   backgroundColor?: string;
 }
 
 export const Container = styled.View<ContainerProps>`
   overflow: hidden;
-
-  ${({ size }) =>
-    size === 'small' &&
-    css`
-      width: 40px;
-      height: 40px;
-      border-radius: 20px;
-    `}
-
-  ${({ size }) =>
-    size === 'default' &&
-    css`
-      width: 56px;
-      height: 56px;
-      border-radius: 28px;
-    `}
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 
   ${({ backgroundColor }) =>
     backgroundColor &&
@@ -38,3 +25,8 @@ export const ButtonContent = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const Icon = styled(VectorIcon).attrs(({ theme }) => ({
+  size: 24,
+  color: theme.texts.white,
+}))``;

@@ -1,13 +1,11 @@
-import React, { memo, useMemo, useRef, useCallback } from 'react';
-import { useWindowDimensions, Alert } from 'react-native';
+import React, { memo, useMemo, useRef, useCallback, useEffect } from 'react';
+import { useWindowDimensions, Alert, Insets } from 'react-native';
 import { useTheme } from 'styled-components';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 
-import Item, { ITEMS_TABLE_NAME } from '../../../../models/Item';
+import Item, { ITEMS_TABLE_NAME } from '../../models/Item';
 
-import BottomSheet, {
-  BottomSheetHandles,
-} from '../../../../components/BottomSheet';
+import BottomSheet, { BottomSheetHandles } from '../BottomSheet';
 
 import CategorySelect, {
   CategorySelectHandles,
@@ -21,6 +19,8 @@ import {
   CancelButton,
   SubmitButton,
 } from './styles';
+
+const hitSlop: Insets = { top: 10, right: 10, bottom: 10, left: 10 };
 
 interface SaveItemProps {
   editItem?: Item;
@@ -46,6 +46,9 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
   }, []);
 
   const handleSubmit = useCallback(async () => {
+    console.log(inputValue.current.trim());
+    console.log(categorySelectRef.current?.selected);
+
     if (
       !inputValue.current.trim().length ||
       !categorySelectRef.current?.selected
@@ -54,27 +57,25 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
     }
 
     try {
-      if (editItem) {
-        await database.action(async () => {
+      await database.action(async () => {
+        if (editItem) {
           await editItem.update(data => {
             Object.assign(data, {
               title: inputValue.current.trim(),
               category: categorySelectRef.current?.selected?.title,
             } as Item);
           });
-        });
-      } else {
-        const collection = database.collections.get<Item>(ITEMS_TABLE_NAME);
+        } else {
+          const collection = database.collections.get<Item>(ITEMS_TABLE_NAME);
 
-        await database.action(async () => {
           await collection.create(item => {
             Object.assign(item, {
               title: inputValue.current.trim(),
               category: categorySelectRef.current?.selected?.title,
             } as Item);
           });
-        });
-      }
+        }
+      });
 
       inputValue.current = '';
 
@@ -94,6 +95,14 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
     }
   }, [onClose]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (editItem) {
+        handleChangeInputValue(editItem?.title);
+      }
+    }, 0);
+  }, [editItem, handleChangeInputValue]);
+
   return (
     <BottomSheet ref={bottomSheetRef} isVisible={visible} onClose={afterClosed}>
       <Container style={{ height: contentHeight }}>
@@ -112,17 +121,11 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
         />
 
         <ButtonsContainer>
-          <CancelButton
-            onPress={handleCancel}
-            hitSlop={{ top: 10, right: 10, bottom: 10, left: 0 }}
-          >
+          <CancelButton hitSlop={hitSlop} onPress={handleCancel}>
             Cancelar
           </CancelButton>
 
-          <SubmitButton
-            onPress={handleSubmit}
-            hitSlop={{ top: 10, right: 10, bottom: 10, left: 0 }}
-          >
+          <SubmitButton hitSlop={hitSlop} onPress={handleSubmit}>
             Salvar
           </SubmitButton>
         </ButtonsContainer>
