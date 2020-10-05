@@ -7,11 +7,13 @@ const hitSlop: Insets = { top: 10, right: 10, bottom: 10, left: 10 };
 
 interface IconButtonProps extends TouchableNativeFeedbackProps {
   icon: string;
+  iconColor?: string;
   backgroundColor?: string;
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
   icon,
+  iconColor,
   backgroundColor,
   ...rest
 }) => {
@@ -19,7 +21,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     <Container backgroundColor={backgroundColor}>
       <Button delayPressIn={0} hitSlop={hitSlop} {...rest}>
         <ButtonContent>
-          <Icon name={icon} />
+          <Icon name={icon} color={iconColor} />
         </ButtonContent>
       </Button>
     </Container>

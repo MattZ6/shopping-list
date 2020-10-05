@@ -23,6 +23,7 @@ declare module 'styled-components' {
     fonts: {
       regular: string;
       medium: string;
+      semiBold: string;
       bold: string;
     };
   }

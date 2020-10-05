@@ -10,7 +10,8 @@ export default {
     primary: '#dbdfe4',
   },
   colors: {
-    primary: '#6E95DD',
+    primary: '#205DD0',
+    // primary: '#6E95DD',
     success: '#55D061',
   },
   texts: {
@@ -20,8 +21,9 @@ export default {
     white: '#FFFFFF',
   },
   fonts: {
-    regular: 'Roboto-Regular',
-    medium: 'Roboto-Medium',
-    bold: 'Roboto-Bold',
+    regular: 'Montserrat-Regular',
+    medium: 'Montserrat-Medium',
+    semiBold: 'Montserrat-SemiBold',
+    bold: 'Montserrat-Bold',
   },
 } as DefaultTheme;

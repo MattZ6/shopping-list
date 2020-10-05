@@ -26,7 +26,7 @@ export const ButtonContent = styled.View`
   justify-content: center;
 `;
 
-export const Icon = styled(VectorIcon).attrs(({ theme }) => ({
+export const Icon = styled(VectorIcon).attrs(({ theme, color }) => ({
   size: 24,
-  color: theme.texts.white,
+  color: color ?? theme.texts.white,
 }))``;
