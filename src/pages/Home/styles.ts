@@ -4,7 +4,7 @@ export const Container = styled.View`
   flex: 1;
 
   position: relative;
-  background: #529ced;
+  background: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Toolbar = styled.View`
@@ -49,14 +49,14 @@ export const SearchButtonContent = styled.View`
   height: 40px;
   padding: 0 24px;
   border-radius: 40px;
-  background: rgba(255, 255, 255, 0.4);
+  background: ${({ theme }) => theme.backgrounds.whiteWithOpacity};
 `;
 
 export const SearchButtonTitle = styled.Text`
   font-size: 16px;
   line-height: 24px;
-  color: #fff;
   margin-left: 8px;
+  color: ${({ theme }) => theme.texts.white};
   font-family: ${({ theme }) => theme.fonts.semiBold};
 `;
 

@@ -29,6 +29,6 @@ export const Title = styled.Text<TitleProps>`
   letter-spacing: 1px;
   color: ${({ theme, disabled }) =>
     disabled ? theme.texts.tertiary : theme.colors.primary};
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   font-size: 16px;
 `;

@@ -5,7 +5,7 @@ import schema from '../models/schema';
 import models from '../models';
 
 const adapter = new SQLiteAdapter({
-  dbName: 'APP_SHOPPING_LIST',
+  dbName: 'APP_OUR_SHOPPING_LIST',
   schema,
 });
 

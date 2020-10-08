@@ -32,7 +32,7 @@ export const Title = styled.Text<TitleProps>`
   letter-spacing: 1px;
   color: ${({ theme, disabled }) =>
     disabled ? theme.texts.primaryLight : theme.texts.white};
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   font-size: 16px;
   line-height: 24px;
 `;

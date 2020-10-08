@@ -1,12 +1,19 @@
 import { Model } from '@nozbe/watermelondb';
-import { field, action } from '@nozbe/watermelondb/decorators';
+import { field, action, relation, text } from '@nozbe/watermelondb/decorators';
+import { Associations } from '@nozbe/watermelondb/Model';
+
+import ShoppingList, { SHOPPING_LISTS_TABLE_NAME } from './ShoppingList';
 
 export const ITEMS_TABLE_NAME = 'items';
 
 export default class Item extends Model {
   static table = ITEMS_TABLE_NAME;
 
-  @field('title')
+  static associations: Associations = {
+    shopping_lists: { type: 'belongs_to', key: 'shopping_list_id' },
+  };
+
+  @text('title')
   public title!: string;
 
   @field('category')
@@ -14,6 +21,9 @@ export default class Item extends Model {
 
   @field('is_checked')
   public is_checked!: boolean;
+
+  @relation(SHOPPING_LISTS_TABLE_NAME, 'shopping_list_id')
+  public shopping_list!: ShoppingList;
 
   @action async delete(): Promise<void> {
     await super.destroyPermanently();

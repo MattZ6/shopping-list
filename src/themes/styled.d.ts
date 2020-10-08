@@ -4,6 +4,7 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     backgrounds: {
       default: string;
+      whiteWithOpacity: string;
       listHeader: string;
       divider: string;
     };
@@ -16,9 +17,11 @@ declare module 'styled-components' {
     };
     texts: {
       primary: string;
+      secondary: string;
       primaryLight: string;
       tertiary: string;
       white: string;
+      black: string;
     };
     fonts: {
       regular: string;

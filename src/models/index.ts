@@ -1,3 +1,4 @@
 import Item from './Item';
+import ShoppingList from './ShoppingList';
 
-export default [Item];
+export default [ShoppingList, Item];

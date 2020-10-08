@@ -1,7 +1,15 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useTheme } from 'styled-components';
+import { Database } from '@nozbe/watermelondb';
+import { withDatabase } from '@nozbe/watermelondb/DatabaseProvider';
+import withObservables from '@nozbe/with-observables';
 
-import ShoppingList from './components/ShoppingList';
+import ShoppingList, {
+  SHOPPING_LISTS_TABLE_NAME,
+} from '../../../../models/ShoppingList';
+
+import ShoppingListComponent from './components/ShoppingList';
 
 import {
   Container,
@@ -15,44 +23,22 @@ import {
   FabTitle,
 } from './styles';
 
-export interface IShoppingList {
-  id: string;
-  title: string;
+interface ShoppingListsProps {
+  onAddPressed: () => void;
+  database: Database;
+  shopping_lists?: ShoppingList[];
 }
 
-const lists: IShoppingList[] = [
-  {
-    id: '1',
-    title: 'Compras do mês',
-  },
-  {
-    id: '2',
-    title: 'Aniversário da baby',
-  },
-  {
-    id: '3',
-    title: 'Minha nova lista de compras',
-  },
-  {
-    id: '4',
-    title:
-      'Uma lista de compras com o nome um pouco grande demais pra ver como fica no layout',
-  },
-  {
-    id: '5',
-    title: 'Aniversário do meu amô ❤',
-  },
-  {
-    id: '6',
-    title: 'Festa junina',
-  },
-  {
-    id: '7',
-    title: 'Muitos chocolates',
-  },
-];
+const ShoppingLists: React.FC<ShoppingListsProps> = ({
+  onAddPressed,
+  shopping_lists = [],
+}) => {
+  const theme = useTheme();
 
-const ShoppingLists: React.FC = () => {
+  const shoppingListsCount = useMemo(() => shopping_lists?.length ?? 0, [
+    shopping_lists,
+  ]);
+
   return (
     <>
       <Container>
@@ -64,12 +50,12 @@ const ShoppingLists: React.FC = () => {
         </Header>
 
         <List
-          data={lists}
+          data={shopping_lists}
           keyExtractor={item => item.id}
           renderItem={({ item, index }) => (
-            <ShoppingList
-              title={item.title}
-              hideBorder={index === lists.length - 1}
+            <ShoppingListComponent
+              shoppingList={item}
+              hideBorder={index === shoppingListsCount - 1}
             />
           )}
           showsVerticalScrollIndicator={false}
@@ -78,16 +64,16 @@ const ShoppingLists: React.FC = () => {
 
       <Fab
         style={{
-          shadowColor: '#000',
+          shadowColor: theme.texts.black,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.5,
           shadowRadius: 2,
           elevation: 4,
         }}
       >
-        <FabButton delayPressIn={60}>
+        <FabButton delayPressIn={50} onPress={() => onAddPressed()}>
           <FabButtonContent>
-            <Icon name="add" color="#fff" size={24} />
+            <Icon name="add" color={theme.texts.white} size={24} />
 
             <FabTitle numberOfLines={1}>Nova lista</FabTitle>
           </FabButtonContent>
@@ -97,4 +83,14 @@ const ShoppingLists: React.FC = () => {
   );
 };
 
-export default memo(ShoppingLists);
+const enhance = withObservables(
+  ['shopping_lists'],
+  ({ database }: ShoppingListsProps) => ({
+    shopping_lists: database.collections
+      .get<ShoppingList>(SHOPPING_LISTS_TABLE_NAME)
+      .query()
+      .observeWithColumns(['title']),
+  }),
+);
+
+export default memo(withDatabase(enhance(ShoppingLists)));

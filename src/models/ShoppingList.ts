@@ -1,0 +1,25 @@
+import { Model } from '@nozbe/watermelondb';
+import { Associations } from '@nozbe/watermelondb/Model';
+import { action, children, text } from '@nozbe/watermelondb/decorators';
+
+import Item, { ITEMS_TABLE_NAME } from './Item';
+
+export const SHOPPING_LISTS_TABLE_NAME = 'shopping_lists';
+
+export default class ShoppingList extends Model {
+  static table = SHOPPING_LISTS_TABLE_NAME;
+
+  static associations: Associations = {
+    items: { type: 'has_many', foreignKey: 'shopping_list_id' },
+  };
+
+  @text('title')
+  public title!: string;
+
+  @children(ITEMS_TABLE_NAME)
+  items!: Item[];
+
+  @action async delete(): Promise<void> {
+    await super.destroyPermanently();
+  }
+}

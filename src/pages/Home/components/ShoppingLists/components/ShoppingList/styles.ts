@@ -31,12 +31,12 @@ export const ButtonContent = styled.View<ButtonContentProps>`
 export const Title = styled.Text`
   font-size: 17px;
   font-family: ${({ theme }) => theme.fonts.semiBold};
-  color: #444444;
+  color: ${({ theme }) => theme.texts.primary};
 `;
 
 export const Label = styled.Text`
   font-size: 14px;
   margin-top: 2px;
   font-family: ${({ theme }) => theme.fonts.regular};
-  color: #999999;
+  color: ${({ theme }) => theme.texts.secondary};
 `;
