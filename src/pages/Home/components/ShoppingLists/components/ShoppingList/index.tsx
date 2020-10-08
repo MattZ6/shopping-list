@@ -1,8 +1,9 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { TouchableNativeFeedback } from 'react-native';
 import withObservables from '@nozbe/with-observables';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
 
 import ShoppingListModel from '../../../../../../models/ShoppingList';
 
@@ -21,11 +22,17 @@ const ShoppingList: React.FC<ShoppingListProps> = ({
   hideBorder = false,
 }) => {
   const theme = useTheme();
+  const navigator = useNavigation();
+
+  const handleNavigate = useCallback(() => {
+    navigator.navigate('shopping_list', { id: shoppingList.id });
+  }, [navigator, shoppingList.id]);
 
   return (
     <Button
       delayPressIn={60}
       background={TouchableNativeFeedback.Ripple(theme.ripples.primary, false)}
+      onPress={handleNavigate}
     >
       <ButtonContainer>
         <ButtonContent showBorder={!hideBorder}>
@@ -43,6 +50,7 @@ const enhance = withObservables(
   ['shoppingList'],
   ({ shoppingList }: ShoppingListProps) => ({
     shoppingList,
+    itemsCount: shoppingList.items_count,
   }),
 );
 

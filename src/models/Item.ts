@@ -25,6 +25,9 @@ export default class Item extends Model {
   @relation(SHOPPING_LISTS_TABLE_NAME, 'shopping_list_id')
   public shopping_list!: ShoppingList;
 
+  @field('shopping_list_id')
+  public shopping_list_id!: string;
+
   @action async delete(): Promise<void> {
     await super.destroyPermanently();
   }

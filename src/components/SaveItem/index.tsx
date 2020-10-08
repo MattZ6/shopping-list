@@ -1,5 +1,5 @@
 import React, { memo, useMemo, useRef, useCallback, useEffect } from 'react';
-import { useWindowDimensions, Alert, Insets } from 'react-native';
+import { useWindowDimensions, Alert, Insets, TextInput } from 'react-native';
 import { useTheme } from 'styled-components';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 
@@ -23,12 +23,18 @@ import {
 const hitSlop: Insets = { top: 10, right: 10, bottom: 10, left: 10 };
 
 interface SaveItemProps {
+  shoppingListId: string;
   editItem?: Item;
   visible?: boolean;
   onClose?: () => void;
 }
 
-const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
+const SaveItem: React.FC<SaveItemProps> = ({
+  onClose,
+  visible,
+  shoppingListId,
+  editItem,
+}) => {
   const theme = useTheme();
   const { height } = useWindowDimensions();
 
@@ -38,6 +44,7 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
   const categorySelectRef = useRef<CategorySelectHandles>(null);
 
   const inputValue = useRef(editItem?.title ?? '');
+  const inputRef = useRef<TextInput>(null);
 
   const contentHeight = useMemo(() => height / 1.3, [height]);
 
@@ -72,6 +79,7 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
             Object.assign(item, {
               title: inputValue.current.trim(),
               category: categorySelectRef.current?.selected?.title,
+              shopping_list_id: shoppingListId,
             } as Item);
           });
         }
@@ -83,7 +91,7 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
     } catch (error) {
       Alert.alert('Ops, algo deu errado', 'Não foi possível salvar o item');
     }
-  }, [database, editItem]);
+  }, [database, editItem, shoppingListId]);
 
   const handleCancel = useCallback(() => {
     bottomSheetRef.current?.close();
@@ -103,12 +111,21 @@ const SaveItem: React.FC<SaveItemProps> = ({ onClose, visible, editItem }) => {
     }, 0);
   }, [editItem, handleChangeInputValue]);
 
+  useEffect(() => {
+    if (visible) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 250);
+    }
+  }, [visible]);
+
   return (
     <BottomSheet ref={bottomSheetRef} isVisible={visible} onClose={afterClosed}>
       <Container style={{ height: contentHeight }}>
         <Title>{editItem ? 'Editar item' : 'Novo item'}</Title>
 
         <Input
+          ref={inputRef}
           defaultValue={editItem?.title}
           onChangeText={handleChangeInputValue}
           placeholder="Qual o nome do item?"

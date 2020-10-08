@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 import IconButton from '../../../../components/IconButton';
 
@@ -11,13 +12,17 @@ import {
 } from './styles';
 
 const Header: React.FC = () => {
+  const navigator = useNavigation();
+
+  const handleBack = useCallback(() => navigator.goBack(), [navigator]);
+
   return (
     <Container>
       <StatusBarSpace />
 
       <Content>
         <LeftButtons>
-          <IconButton icon="arrow-back" />
+          <IconButton icon="arrow-back" onPress={handleBack} />
         </LeftButtons>
 
         <RightButtons>

@@ -1,6 +1,6 @@
-import { Model } from '@nozbe/watermelondb';
+import { Model, Q } from '@nozbe/watermelondb';
 import { Associations } from '@nozbe/watermelondb/Model';
-import { action, children, text } from '@nozbe/watermelondb/decorators';
+import { action, children, lazy, text } from '@nozbe/watermelondb/decorators';
 
 import Item, { ITEMS_TABLE_NAME } from './Item';
 
@@ -18,6 +18,11 @@ export default class ShoppingList extends Model {
 
   @children(ITEMS_TABLE_NAME)
   items!: Item[];
+
+  @lazy items_count = this.collections
+    .get(ITEMS_TABLE_NAME)
+    .query(Q.where('shopping_list_id', this.id))
+    .observeCount();
 
   @action async delete(): Promise<void> {
     await super.destroyPermanently();

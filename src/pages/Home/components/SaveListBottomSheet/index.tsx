@@ -91,7 +91,9 @@ const SaveListBottomSheet: React.FC<SaveListBottomSheetProps> = ({
 
   useEffect(() => {
     if (isVisible) {
-      inputRef.current?.focus();
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 250);
     }
   }, [isVisible]);
 

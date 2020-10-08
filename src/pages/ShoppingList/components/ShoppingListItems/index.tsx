@@ -1,5 +1,5 @@
 import React, { useMemo, memo } from 'react';
-import { Database } from '@nozbe/watermelondb';
+import { Database, Q } from '@nozbe/watermelondb';
 import { withDatabase } from '@nozbe/watermelondb/DatabaseProvider';
 import withObservables from '@nozbe/with-observables';
 
@@ -21,6 +21,7 @@ export interface Section {
 interface ShoppingListItemsProps {
   database: Database;
   items?: Item[];
+  shoppingListId: string;
 }
 
 const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({ items }) => {
@@ -87,7 +88,7 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({ items }) => {
     return (
       <Container>
         <ScreenState
-          icon="hotel"
+          icon="subject"
           title="A lista não possui itens"
           description="Para adiciona-los clique em +"
         />
@@ -106,11 +107,11 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({ items }) => {
 };
 
 const enhance = withObservables(
-  ['items'],
-  ({ database }: ShoppingListItemsProps) => ({
+  ['items', 'shoppingListId'],
+  ({ database, shoppingListId }: ShoppingListItemsProps) => ({
     items: database.collections
       .get<Item>(ITEMS_TABLE_NAME)
-      .query()
+      .query(Q.where('shopping_list_id', shoppingListId))
       .observeWithColumns(['is_checked', 'category']),
   }),
 );

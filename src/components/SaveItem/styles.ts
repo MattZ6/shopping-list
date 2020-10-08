@@ -8,10 +8,11 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-  padding: 0 16px;
-  font-size: 24px;
+  font-size: 28px;
+  line-height: 32px;
+  margin: 8px 16px 0;
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   color: ${({ theme }) => theme.texts.primary};
-  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const Input = styled.TextInput`
