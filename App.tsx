@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { StatusBar } from 'react-native';
 import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider';
@@ -7,7 +8,7 @@ import database from './src/database';
 
 import light from './src/themes/light';
 
-import Home from './src/pages/Home';
+import Routes from './src/routes';
 
 const App: React.FC = () => {
   return (
@@ -19,7 +20,7 @@ const App: React.FC = () => {
           barStyle="light-content"
         />
 
-        <Home />
+        <Routes />
       </ThemeProvider>
     </DatabaseProvider>
   );
