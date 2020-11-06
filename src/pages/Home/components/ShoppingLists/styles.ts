@@ -19,13 +19,13 @@ export const Header = styled.View`
 
 export const Title = styled.Text`
   font-size: 24px;
-  color: ${({ theme }) => theme.texts.primary};
   line-height: 32px;
+  color: ${({ theme }) => theme.texts.primary};
   font-family: ${({ theme }) => theme.fonts.semiBold};
 `;
 
 export const Description = styled.Text`
-  font-size: 15px;
+  font-size: 16px;
   line-height: 24px;
   color: ${({ theme }) => theme.texts.secondary};
   font-family: ${({ theme }) => theme.fonts.regular};
@@ -63,6 +63,6 @@ export const FabButtonContent = styled.View`
 export const FabTitle = styled.Text`
   margin-left: 8px;
   font-size: 16px;
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.texts.white};
 `;

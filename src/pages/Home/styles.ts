@@ -30,7 +30,7 @@ export const Title = styled.Text`
   font-size: 28px;
   text-align: center;
   color: ${({ theme }) => theme.texts.white};
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const SearchButtonWrapper = styled.View`
@@ -57,7 +57,7 @@ export const SearchButtonTitle = styled.Text`
   line-height: 24px;
   margin-left: 8px;
   color: ${({ theme }) => theme.texts.white};
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
 export const FabContainer = styled.View`

@@ -78,7 +78,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
                 value={!!item.is_checked}
                 tintColors={{
                   true: theme.colors.primary,
-                  false: theme.texts.tertiary,
+                  false: theme.texts.tertiaryLight,
                 }}
               />
             </CheckBoxContainer>
@@ -94,6 +94,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({
       />
 
       <EditItem
+        shoppingListId={item.shopping_list_id}
         editItem={item}
         visible={editModalVisible}
         onClose={() => setEditModalVisible(false)}

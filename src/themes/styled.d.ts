@@ -20,12 +20,12 @@ declare module 'styled-components' {
       secondary: string;
       primaryLight: string;
       tertiary: string;
+      tertiaryLight: string;
       white: string;
       black: string;
     };
     fonts: {
       regular: string;
-      medium: string;
       semiBold: string;
       bold: string;
     };

@@ -11,7 +11,7 @@ export const Title = styled.Text`
   font-size: 28px;
   line-height: 32px;
   margin: 8px 16px 0;
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.texts.primary};
 `;
 

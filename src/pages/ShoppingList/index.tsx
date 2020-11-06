@@ -1,19 +1,25 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { useTheme } from 'styled-components/native';
+import { useRoute } from '@react-navigation/native';
 
 import Fab from '../../components/Fab';
 import SaveItem from '../../components/SaveItem';
 
-import Header from './components/Header';
 import ShoppingListItems from './components/ShoppingListItems';
 
 import { Container, FabContainer } from './styles';
 
+interface RouteParams {
+  id: string;
+  title: string;
+}
+
 const ShoppingList: React.FC = () => {
   const theme = useTheme();
 
-  const route = useRoute<RouteProp<Record<string, { id: string }>, string>>();
+  const route = useRoute();
+
+  const params = route.params as RouteParams;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,9 +32,10 @@ const ShoppingList: React.FC = () => {
 
   return (
     <Container>
-      <Header />
-
-      <ShoppingListItems shoppingListId={String(route.params.id)} />
+      <ShoppingListItems
+        shoppingListId={params.id}
+        shoppingListTitle={params.title}
+      />
 
       <FabContainer>
         <Fab
@@ -40,7 +47,7 @@ const ShoppingList: React.FC = () => {
 
       <SaveItem
         visible={isOpen}
-        shoppingListId={route.params.id}
+        shoppingListId={params.id}
         onClose={handleCloseSaveItemBottomSheet}
       />
     </Container>

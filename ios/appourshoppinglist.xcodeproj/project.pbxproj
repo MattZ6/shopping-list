@@ -39,6 +39,9 @@
 		129D5ACC28AD4501B9CDC983 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D8503B9216884F209C2FAB8D /* Octicons.ttf */; };
 		B38146A09791416E89098A92 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E095B551D1C4531A6A2D2A6 /* SimpleLineIcons.ttf */; };
 		60A22C0EBA2E43599192A556 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 813240AD82894C13852DF399 /* Zocial.ttf */; };
+		C39EE418416D4CFF92980E37 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3281D13E5F304E5B85DCF512 /* Nunito-Bold.ttf */; };
+		49B8DCCF72BE458AA05AF659 /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AB094A170D448D69E2DA313 /* Nunito-Regular.ttf */; };
+		1F45D68385CB4CE79D6A5E4F /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7488D43484B9490FB8565AD1 /* Nunito-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +100,9 @@
 		D8503B9216884F209C2FAB8D /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		5E095B551D1C4531A6A2D2A6 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		813240AD82894C13852DF399 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3281D13E5F304E5B85DCF512 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8AB094A170D448D69E2DA313 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7488D43484B9490FB8565AD1 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +236,9 @@
 				D8503B9216884F209C2FAB8D /* Octicons.ttf */,
 				5E095B551D1C4531A6A2D2A6 /* SimpleLineIcons.ttf */,
 				813240AD82894C13852DF399 /* Zocial.ttf */,
+				3281D13E5F304E5B85DCF512 /* Nunito-Bold.ttf */,
+				8AB094A170D448D69E2DA313 /* Nunito-Regular.ttf */,
+				7488D43484B9490FB8565AD1 /* Nunito-SemiBold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -396,6 +405,9 @@
 				129D5ACC28AD4501B9CDC983 /* Octicons.ttf in Resources */,
 				B38146A09791416E89098A92 /* SimpleLineIcons.ttf in Resources */,
 				60A22C0EBA2E43599192A556 /* Zocial.ttf in Resources */,
+				C39EE418416D4CFF92980E37 /* Nunito-Bold.ttf in Resources */,
+				49B8DCCF72BE458AA05AF659 /* Nunito-Regular.ttf in Resources */,
+				1F45D68385CB4CE79D6A5E4F /* Nunito-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -27,7 +27,7 @@ export const Icon = styled(VectorIcon).attrs(({ theme }) => ({
 export const Title = styled.Text`
   text-align: center;
   font-size: 24px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   color: ${({ theme }) => theme.texts.primaryLight};
   margin-top: 8px;
 `;

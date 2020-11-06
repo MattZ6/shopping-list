@@ -30,7 +30,7 @@ interface TitleProps {
 
 export const Title = styled.Text<TitleProps>`
   font-size: 15px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
   color: ${({ theme, selected }) =>
     selected ? theme.texts.white : theme.texts.primary};
 `;

@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
-import { Container, Content, Title, Label, LabelBold } from './styles';
+import {
+  Container,
+  Content,
+  Title,
+  CountContainer,
+  CheckIcon,
+  Label,
+  LabelBold,
+} from './styles';
 
 interface CategoryHeaderProps {
   title: string;
@@ -13,15 +21,24 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   total = 0,
   totalChecked = 0,
 }) => {
+  const doneAll = useMemo(
+    () => total > 0 && totalChecked > 0 && total === totalChecked,
+    [total, totalChecked],
+  );
+
   return (
     <Container>
       <Content>
-        <Title>{title}</Title>
+        <Title numberOfLines={1}>{title}</Title>
 
-        <Label>
-          <LabelBold>{totalChecked}</LabelBold> de{' '}
-          <LabelBold>{total}</LabelBold>
-        </Label>
+        <CountContainer>
+          {doneAll && <CheckIcon />}
+
+          <Label>
+            <LabelBold>{totalChecked}</LabelBold> de{' '}
+            <LabelBold>{total}</LabelBold>
+          </Label>
+        </CountContainer>
       </Content>
 
       {/* Check Icon */}

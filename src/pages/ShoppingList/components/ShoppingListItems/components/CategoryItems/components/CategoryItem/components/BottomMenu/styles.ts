@@ -17,6 +17,6 @@ export const ButtonTitle = styled.Text`
 
   margin-left: 16px;
   font-size: 15px;
-  font-family: ${({ theme }) => theme.fonts.medium};
+  font-family: ${({ theme }) => theme.fonts.bold};
   color: ${({ theme }) => theme.texts.primary};
 `;

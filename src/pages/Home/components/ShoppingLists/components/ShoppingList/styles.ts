@@ -29,14 +29,15 @@ export const ButtonContent = styled.View<ButtonContentProps>`
 `;
 
 export const Title = styled.Text`
-  font-size: 17px;
-  font-family: ${({ theme }) => theme.fonts.semiBold};
+  font-size: 16px;
+  line-height: 24px;
   color: ${({ theme }) => theme.texts.primary};
+  font-family: ${({ theme }) => theme.fonts.semiBold};
 `;
 
 export const Label = styled.Text`
   font-size: 14px;
-  margin-top: 2px;
-  font-family: ${({ theme }) => theme.fonts.regular};
+  line-height: 20px;
   color: ${({ theme }) => theme.texts.secondary};
+  font-family: ${({ theme }) => theme.fonts.regular};
 `;
