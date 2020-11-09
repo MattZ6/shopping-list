@@ -798,7 +798,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@7.12.5":
+"@babel/runtime@7.12.5", "@babel/runtime@^7.11.2":
   version "7.12.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha512-plcc+hbExy3McchJCEQG3knOsuh3HH+Prx1P6cLIkET/0dLuQDEnrT+s27Axgc9bqfsmNUNHfscgMUdBpC9xfg==
@@ -1177,16 +1177,16 @@
   resolved "https://registry.yarnpkg.com/@nozbe/sqlite/-/sqlite-3.31.1.tgz#ffd394ad7c188c6b73f89fd6e1ccb849a1b96dba"
   integrity sha512-z5+GdcHZl9OQ1g0pnygORAnwCYUlYw/gQxdW/8rS0HxD2Gnn/k3DBQOvqQIH4Z3Z3KWVMbGUYhcH1v4SqTAdwg==
 
-"@nozbe/watermelondb@0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@nozbe/watermelondb/-/watermelondb-0.19.0.tgz#70dae4bfca9dde8d61819a6092846e178a50e2f7"
-  integrity sha512-x7sclLu/4RDmLzANIYQioKjWdmoIxgqYw7OJnS7UtWEtJGn28l5Z69SWojll/RM0X2KOEem0BIcjqM46CA53GA==
+"@nozbe/watermelondb@0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@nozbe/watermelondb/-/watermelondb-0.20.0.tgz#c7cfc1e2d0dbed59b1233e5ef034beec104523b1"
+  integrity sha512-VKnIucGS/+TiJIl9YBPozrlw+BKBDqmaUpzAKi97uPz5zXRUtSaj7ripl27yg/6MzM26hcHAcoMOBXop2x8TQg==
   dependencies:
+    "@babel/runtime" "^7.11.2"
     "@nozbe/sqlite" "3.31.1"
-    lokijs "npm:@nozbe/lokijs@1.5.10-wmelon0"
+    lokijs "npm:@nozbe/lokijs@1.5.10-wmelon3"
     rambdax "2.15.0"
-    rxjs "^6.2.2"
-    rxjs-compat "^6.3.2"
+    rxjs "^6.5.3"
     sql-escape-string "^1.1.0"
 
 "@nozbe/with-observables@1.0.5":
@@ -5011,10 +5011,10 @@ logkitty@^0.7.1:
     dayjs "^1.8.15"
     yargs "^15.1.0"
 
-"lokijs@npm:@nozbe/lokijs@1.5.10-wmelon0":
-  version "1.5.10-wmelon0"
-  resolved "https://registry.yarnpkg.com/@nozbe/lokijs/-/lokijs-1.5.10-wmelon0.tgz#dcad682083b85c238d14cdcd1f016125fff54336"
-  integrity sha512-GSLyRUTxCPwWLLKxMxA8/Pujm2xAgPGSehze9ICHZDG9yyMMfuWYae+qY+fQctgA1HuKiwoRUEvrrKBCQj9jzA==
+"lokijs@npm:@nozbe/lokijs@1.5.10-wmelon3":
+  version "1.5.10-wmelon3"
+  resolved "https://registry.yarnpkg.com/@nozbe/lokijs/-/lokijs-1.5.10-wmelon3.tgz#534b3e687f70deba2150cb27f31b355562ee72d1"
+  integrity sha512-yfuj/SzYiVVn0e3OP8vjcbekumUR62Df90deG8uH7+5nqJqTLe4HkEzlmwJfss9UE0K8PsTQLACFOUq/2aAJ2A==
 
 lolex@^5.0.0:
   version "5.1.2"
@@ -6656,12 +6656,7 @@ rx-lite@*, rx-lite@^4.0.8:
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
   integrity sha1-Cx4Rr4vESDbwSmQH6S2kJGe3lEQ=
 
-rxjs-compat@^6.3.2:
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.6.3.tgz#141405fcee11f48718d428b99c8f01826f594e5c"
-  integrity sha512-y+wUqq7bS2dG+7rH2fNMoxsDiJ32RQzFxZQE/JdtpnmEZmwLQrb1tCiItyHxdXJHXjmHnnzFscn3b6PEmORGKw==
-
-rxjs@6.6.3, rxjs@^6.2.2, rxjs@^6.4.0:
+rxjs@6.6.3, rxjs@^6.4.0, rxjs@^6.5.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
