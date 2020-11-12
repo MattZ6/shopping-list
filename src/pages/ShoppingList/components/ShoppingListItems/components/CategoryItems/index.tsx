@@ -7,9 +7,13 @@ import { Container } from './styles';
 
 interface CategoryItemsProps {
   items: Item[];
+  onItemLongPress: (data: Item) => void;
 }
 
-const CategoryItems: React.FC<CategoryItemsProps> = ({ items }) => {
+const CategoryItems: React.FC<CategoryItemsProps> = ({
+  items,
+  onItemLongPress,
+}) => {
   return (
     <Container>
       {items.map((item, index) => (
@@ -17,6 +21,7 @@ const CategoryItems: React.FC<CategoryItemsProps> = ({ items }) => {
           key={item.id}
           item={item}
           hideBorder={index === items.length - 1}
+          onLongPress={onItemLongPress}
         />
       ))}
     </Container>

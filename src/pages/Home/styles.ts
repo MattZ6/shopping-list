@@ -1,4 +1,7 @@
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
+
+export const TOOLBAR_HEIGHT = 80;
 
 export const Container = styled.View`
   flex: 1;
@@ -8,7 +11,7 @@ export const Container = styled.View`
 `;
 
 export const Toolbar = styled.View`
-  height: 80px;
+  height: ${TOOLBAR_HEIGHT}px;
 `;
 
 export const ToolbarContent = styled.View`
@@ -19,49 +22,80 @@ export const ToolbarContent = styled.View`
   padding: 28px 8px 0;
 `;
 
-export const SubHeader = styled.View`
+export interface ScrollItem {
+  isSticky?: boolean;
+  key: string;
+  render: () => JSX.Element;
+}
+
+export const Scroll = styled(FlatList as new () => FlatList<ScrollItem>)`
+  flex: 1;
+`;
+
+interface SpacerProps {
+  height: number;
+}
+
+export const Spacer = styled.View<SpacerProps>`
+  height: ${props => props.height}px;
+  background: ${({ theme }) => theme.backgrounds.default};
+`;
+
+export const EmptyListContainer = styled.View`
+  flex: 1;
   align-items: center;
   justify-content: center;
 
-  padding: 16px 16px 32px;
+  padding: 0 16px;
 `;
 
-export const Title = styled.Text`
-  font-size: 28px;
+export const EmptyListTitle = styled.Text`
+  font-size: 24px;
+  line-height: 32px;
   text-align: center;
-  color: ${({ theme }) => theme.texts.white};
+  margin-top: 16px;
   font-family: ${({ theme }) => theme.fonts.bold};
+  color: ${({ theme }) => theme.texts.white};
 `;
 
-export const SearchButtonWrapper = styled.View`
+export const EmptyListDescription = styled.Text`
+  font-size: 18px;
+  line-height: 24px;
+  text-align: center;
+  margin-top: 16px;
+  font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.texts.white};
+`;
+
+export const EmptyListButtonWrapper = styled.View`
+  align-self: stretch;
+
   overflow: hidden;
+  border-radius: 6px;
+  height: 44px;
 
   margin-top: 32px;
-  border-radius: 40px;
+
+  border-width: 0.5px;
+  border-color: ${({ theme }) => theme.backgrounds.whiteWithOpacity};
 `;
 
-export const SearchButton = styled.TouchableNativeFeedback``;
+export const EmptyListTouchable = styled.TouchableNativeFeedback`
+  flex: 1;
+`;
 
-export const SearchButtonContent = styled.View`
-  flex-direction: row;
+export const EmptyListTouchableContent = styled.View`
+  flex: 1;
   align-items: center;
+  justify-content: center;
 
-  height: 40px;
-  padding: 0 24px;
-  border-radius: 40px;
-  background: ${({ theme }) => theme.backgrounds.whiteWithOpacity};
+  padding: 0 16px;
 `;
 
-export const SearchButtonTitle = styled.Text`
-  font-size: 16px;
-  line-height: 24px;
-  margin-left: 8px;
+export const EmptyListTouchableContentTitle = styled.Text`
+  letter-spacing: 1px;
   color: ${({ theme }) => theme.texts.white};
   font-family: ${({ theme }) => theme.fonts.bold};
-`;
-
-export const FabContainer = styled.View`
-  position: absolute;
-  right: 16px;
-  bottom: 16px;
+  font-size: 16px;
+  line-height: 24px;
 `;

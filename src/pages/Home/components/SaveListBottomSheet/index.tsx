@@ -7,12 +7,9 @@ import React, {
   memo,
   useRef,
 } from 'react';
-import { useWindowDimensions, TextInput, Alert } from 'react-native';
+import { TextInput, Alert } from 'react-native';
 import { useTheme } from 'styled-components';
 
-import BottomSheet, {
-  BottomSheetHandles,
-} from '../../../../components/BottomSheet';
 import ShoppingList, {
   SHOPPING_LISTS_TABLE_NAME,
 } from '../../../../models/ShoppingList';
@@ -27,34 +24,31 @@ import {
 } from './styles';
 
 interface SaveListBottomSheetProps {
-  isVisible: boolean;
+  shoppingList: ShoppingList | null;
   onClose: () => void;
 }
 
 const SaveListBottomSheet: React.FC<SaveListBottomSheetProps> = ({
-  isVisible,
+  shoppingList: currentShoppingList,
   onClose,
 }) => {
-  const [value, setValue] = useState('');
+  const theme = useTheme();
 
   const database = useDatabase();
 
-  const theme = useTheme();
-  const { height: SCREEN_HEIGHT } = useWindowDimensions();
-
-  const bottomSheetRef = useRef<BottomSheetHandles>(null);
   const inputRef = useRef<TextInput>(null);
+  const [value, setValue] = useState(currentShoppingList?.title ?? '');
+
+  const title = useMemo(
+    () => (currentShoppingList ? 'Editar lista' : 'Nova lista'),
+    [currentShoppingList],
+  );
 
   const isButtonDisabled = useMemo(() => value.trim().length === 0, [value]);
 
-  const handleClose = useCallback(() => {
-    setValue('');
+  const handleCancel = useCallback(() => {
     onClose();
   }, [onClose]);
-
-  const handleCancel = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
 
   const handleSubmit = useCallback(async () => {
     if (isButtonDisabled) {
@@ -63,68 +57,59 @@ const SaveListBottomSheet: React.FC<SaveListBottomSheetProps> = ({
 
     try {
       await database.action(async () => {
-        // if (editItem) {
-        //   await editItem.update(data => {
-        //     Object.assign(data, {
-        //       title: inputValue.current.trim(),
-        //       category: categorySelectRef.current?.selected?.title,
-        //     } as Item);
-        //   });
-        // } else {
-        const collection = database.collections.get<ShoppingList>(
-          SHOPPING_LISTS_TABLE_NAME,
-        );
+        if (currentShoppingList) {
+          await currentShoppingList.update(data => {
+            Object.assign(data, {
+              title: value.trim(),
+            } as ShoppingList);
+          });
+        } else {
+          const collection = database.collections.get<ShoppingList>(
+            SHOPPING_LISTS_TABLE_NAME,
+          );
 
-        await collection.create(shoppingList => {
-          Object.assign(shoppingList, {
-            title: value,
-          } as ShoppingList);
-        });
-        // }
+          await collection.create(shoppingList => {
+            Object.assign(shoppingList, {
+              title: value.trim(),
+            } as ShoppingList);
+          });
+        }
       });
 
-      bottomSheetRef.current?.close();
+      onClose();
     } catch (error) {
       Alert.alert('Ops, algo deu errado', 'Não foi possível salvar o item');
     }
-  }, [database, isButtonDisabled, value]);
+  }, [database, currentShoppingList, isButtonDisabled, value, onClose]);
 
   useEffect(() => {
-    if (isVisible) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 250);
-    }
-  }, [isVisible]);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  }, []);
 
   return (
-    <BottomSheet
-      ref={bottomSheetRef}
-      isVisible={isVisible}
-      onClose={handleClose}
-    >
-      <Container style={{ height: SCREEN_HEIGHT - 80 }}>
-        <Title>Nova lista</Title>
+    <Container>
+      <Title>{title}</Title>
 
-        <Input
-          ref={inputRef}
-          value={value}
-          defaultValue={value}
-          onChangeText={setValue}
-          onSubmitEditing={handleSubmit}
-          placeholder="Qual o nome do item?"
-          placeholderTextColor={theme.texts.secondary}
-        />
+      <Input
+        ref={inputRef}
+        value={value}
+        defaultValue={value}
+        onChangeText={setValue}
+        onSubmitEditing={handleSubmit}
+        placeholder="Qual o nome do item?"
+        placeholderTextColor={theme.texts.secondary}
+      />
 
-        <ButtonsContainer>
-          <CancelButton onPress={handleCancel}>Cancelar</CancelButton>
+      <ButtonsContainer>
+        <CancelButton onPress={handleCancel}>Cancelar</CancelButton>
 
-          <SubmitButton disabled={isButtonDisabled} onPress={handleSubmit}>
-            Salvar
-          </SubmitButton>
-        </ButtonsContainer>
-      </Container>
-    </BottomSheet>
+        <SubmitButton disabled={isButtonDisabled} onPress={handleSubmit}>
+          Salvar
+        </SubmitButton>
+      </ButtonsContainer>
+    </Container>
   );
 };
 

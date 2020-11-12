@@ -14,12 +14,14 @@ interface ShoppingListProps {
   itemsCount?: number;
 
   hideBorder?: boolean;
+  onLongPress: (data: ShoppingListModel) => void;
 }
 
 const ShoppingList: React.FC<ShoppingListProps> = ({
   shoppingList,
   itemsCount,
   hideBorder = false,
+  onLongPress,
 }) => {
   const theme = useTheme();
   const navigator = useNavigation();
@@ -44,10 +46,11 @@ const ShoppingList: React.FC<ShoppingListProps> = ({
       delayPressIn={60}
       background={TouchableNativeFeedback.Ripple(theme.ripples.primary, false)}
       onPress={handleNavigateToShoppingListScreen}
+      onLongPress={() => onLongPress(shoppingList)}
     >
       <ButtonContainer>
         <ButtonContent showBorder={!hideBorder}>
-          <Title numberOfLines={2}>{shoppingList.title}</Title>
+          <Title numberOfLines={1}>{shoppingList.title}</Title>
           <Label>{itemsCountLabel}</Label>
         </ButtonContent>
 

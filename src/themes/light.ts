@@ -16,6 +16,9 @@ export default {
   },
   texts: {
     primary: '#444444',
+    primaryWithOpacity56: 'rgba(58, 58, 58, 0.56)',
+    primaryWithOpacity32: 'rgba(58, 58, 58, 0.32)',
+    primaryWithOpacity5: 'rgba(58, 58, 58, 0.05)',
     secondary: '#999999',
     tertiary: '#666666',
     tertiaryLight: '#DEDEDE',
