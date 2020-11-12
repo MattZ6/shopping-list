@@ -1189,13 +1189,14 @@
     rxjs "^6.5.3"
     sql-escape-string "^1.1.0"
 
-"@nozbe/with-observables@1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.0.5.tgz#12be0b8a4b22845f4413de94ff330d4b0de2802a"
-  integrity sha512-1thn5tRlZiC2ys8OVyJDe/9XBbUMKWlALtfv0eX4Pcom5/dsY9OYWBXc1braGdFWcVnBjDlLamDGITDljLkqtw==
+"@nozbe/with-observables@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.0.7.tgz#7109b533094701182f0064eaf5f17549b03fdbf8"
+  integrity sha512-wFQu9t1tL8C1D2JaVRC8kqiPQBvGd7/QgJKQtQtW6bIrvaaFbh86V2oVuffXgFFEh2KujPKKtgTqXA1GH6Ic+A==
   dependencies:
-    hoist-non-react-statics "^3.3.0"
-    rxjs "^6.4.0"
+    hoist-non-react-statics "^3.3.2"
+    rxjs "^6.6.3"
+    rxjs-compat "^6.6.3"
 
 "@react-native-community/checkbox@0.5.5":
   version "0.5.5"
@@ -3812,7 +3813,7 @@ hermes-profile-transformer@^0.0.6:
   dependencies:
     source-map "^0.7.3"
 
-hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.0.0, hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -6690,7 +6691,12 @@ rx-lite@*, rx-lite@^4.0.8:
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
   integrity sha1-Cx4Rr4vESDbwSmQH6S2kJGe3lEQ=
 
-rxjs@6.6.3, rxjs@^6.4.0, rxjs@^6.5.3:
+rxjs-compat@^6.6.3:
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.6.3.tgz#141405fcee11f48718d428b99c8f01826f594e5c"
+  integrity sha512-y+wUqq7bS2dG+7rH2fNMoxsDiJ32RQzFxZQE/JdtpnmEZmwLQrb1tCiItyHxdXJHXjmHnnzFscn3b6PEmORGKw==
+
+rxjs@6.6.3, rxjs@^6.5.3, rxjs@^6.6.3:
   version "6.6.3"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
   integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
