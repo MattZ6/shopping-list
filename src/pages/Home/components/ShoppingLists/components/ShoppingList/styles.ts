@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components/native';
 
+export const SHOPPING_LIST_HEIGHT = 72;
+
 export const Button = styled.TouchableNativeFeedback``;
 
 export const ButtonContainer = styled.View`
@@ -7,6 +9,7 @@ export const ButtonContainer = styled.View`
   align-items: center;
 
   padding: 0 8px 0 16px;
+  height: ${SHOPPING_LIST_HEIGHT}px;
 `;
 
 interface ButtonContentProps {

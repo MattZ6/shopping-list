@@ -17,6 +17,9 @@ declare module 'styled-components' {
     };
     texts: {
       primary: string;
+      primaryWithOpacity56: string;
+      primaryWithOpacity32: string;
+      primaryWithOpacity5: string;
       secondary: string;
       primaryLight: string;
       tertiary: string;

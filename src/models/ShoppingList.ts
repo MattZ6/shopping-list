@@ -24,7 +24,7 @@ export default class ShoppingList extends Model {
     .query(Q.where('shopping_list_id', this.id))
     .observeCount();
 
-  @action async delete(): Promise<void> {
-    await super.destroyPermanently();
+  @action delete(): Promise<void> {
+    return super.destroyPermanently();
   }
 }

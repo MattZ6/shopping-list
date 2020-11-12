@@ -7,7 +7,7 @@ import { Container, Button, ButtonContent, Title } from './styles';
 interface CategoryProps {
   selected: boolean;
   category: ICategory;
-  onSelect: () => void;
+  onSelect: (data: ICategory) => void;
 }
 
 const Category: React.FC<CategoryProps> = ({
@@ -17,7 +17,7 @@ const Category: React.FC<CategoryProps> = ({
 }) => {
   return (
     <Container selected={!!selected}>
-      <Button delayPressIn={50} onPress={onSelect}>
+      <Button delayPressIn={50} onPress={() => onSelect(category)}>
         <ButtonContent>
           <Title selected={!!selected}>{category.title}</Title>
         </ButtonContent>

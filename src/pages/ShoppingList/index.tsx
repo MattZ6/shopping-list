@@ -1,6 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { memo, useRef, useCallback, useState } from 'react';
 import { useTheme } from 'styled-components/native';
 import { useRoute } from '@react-navigation/native';
+import { Modalize } from 'react-native-modalize';
+
+import Item from '../../models/Item';
 
 import Fab from '../../components/Fab';
 import SaveItem from '../../components/SaveItem';
@@ -18,40 +21,47 @@ const ShoppingList: React.FC = () => {
   const theme = useTheme();
 
   const route = useRoute();
-
   const params = route.params as RouteParams;
 
-  const [isOpen, setIsOpen] = useState(false);
+  const saveItemBottomSheetRef = useRef<Modalize>(null);
 
-  const handleOpenSaveItemBottomSheet = useCallback(() => setIsOpen(true), []);
+  const handleOpenSaveItemBottomSheet = useCallback(() => {
+    saveItemBottomSheetRef?.current?.open();
+  }, []);
 
-  const handleCloseSaveItemBottomSheet = useCallback(
-    () => setIsOpen(false),
-    [],
-  );
+  const handleCloseSaveItemBottomSheet = useCallback(() => {
+    saveItemBottomSheetRef?.current?.close();
+  }, []);
 
   return (
-    <Container>
-      <ShoppingListItems
-        shoppingListId={params.id}
-        shoppingListTitle={params.title}
-      />
-
-      <FabContainer>
-        <Fab
-          icon="add"
-          backgroundColor={theme.colors.success}
-          onPress={handleOpenSaveItemBottomSheet}
+    <>
+      <Container>
+        <ShoppingListItems
+          shoppingListId={params.id}
+          shoppingListTitle={params.title}
         />
-      </FabContainer>
 
-      <SaveItem
-        visible={isOpen}
-        shoppingListId={params.id}
-        onClose={handleCloseSaveItemBottomSheet}
-      />
-    </Container>
+        <FabContainer>
+          <Fab
+            icon="add"
+            backgroundColor={theme.colors.success}
+            onPress={handleOpenSaveItemBottomSheet}
+          />
+        </FabContainer>
+      </Container>
+
+      <Modalize
+        ref={saveItemBottomSheetRef}
+        handlePosition="inside"
+        adjustToContentHeight
+      >
+        <SaveItem
+          shoppingListId={params.id}
+          onClose={handleCloseSaveItemBottomSheet}
+        />
+      </Modalize>
+    </>
   );
 };
 
-export default ShoppingList;
+export default memo(ShoppingList);

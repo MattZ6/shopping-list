@@ -1,75 +1,98 @@
-import React, { memo, useMemo, useRef, useCallback, useEffect } from 'react';
-import { useWindowDimensions, Alert, Insets, TextInput } from 'react-native';
+import React, {
+  memo,
+  useMemo,
+  useRef,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { Alert, Insets, TextInput } from 'react-native';
 import { useTheme } from 'styled-components';
 import { useDatabase } from '@nozbe/watermelondb/hooks';
 
 import Item, { ITEMS_TABLE_NAME } from '../../models/Item';
 
-import BottomSheet, { BottomSheetHandles } from '../BottomSheet';
-
-import CategorySelect, {
-  CategorySelectHandles,
-} from './components/CategorySelect';
+import Category from './components/Category';
 
 import {
   Container,
   Title,
   Input,
+  SelectContainer,
+  SelectLabel,
+  SelectList,
+  SelectListSeparator,
   ButtonsContainer,
   CancelButton,
   SubmitButton,
 } from './styles';
 
+export interface ICategory {
+  key: string;
+  title: string;
+  selected?: boolean;
+}
+
+const stored_categories: ICategory[] = [
+  {
+    key: 'higiene_pessoal',
+    title: 'Higiêne pessoal',
+  },
+  {
+    key: 'materiais_de_limpeza',
+    title: 'Materiais de limpeza',
+  },
+  {
+    key: 'frios',
+    title: 'Frios',
+  },
+  {
+    key: 'frutas_e_verduras',
+    title: 'Frutas & Verduras',
+  },
+  {
+    key: 'produtos_em_geral',
+    title: 'Produtos em geral 🤷🏻‍♀️',
+  },
+];
+
 const hitSlop: Insets = { top: 10, right: 10, bottom: 10, left: 10 };
 
 interface SaveItemProps {
   shoppingListId: string;
-  editItem?: Item;
-  visible?: boolean;
-  onClose?: () => void;
+  item?: Item | null;
+  onClose: () => void;
 }
 
 const SaveItem: React.FC<SaveItemProps> = ({
   onClose,
-  visible,
   shoppingListId,
-  editItem,
+  item: currentItem,
 }) => {
   const theme = useTheme();
-  const { height } = useWindowDimensions();
 
   const database = useDatabase();
 
-  const bottomSheetRef = useRef<BottomSheetHandles>(null);
-  const categorySelectRef = useRef<CategorySelectHandles>(null);
+  const titleInputRef = useRef<TextInput>(null);
+  const [title, setTitle] = useState(currentItem?.title ?? '');
 
-  const inputValue = useRef(editItem?.title ?? '');
-  const inputRef = useRef<TextInput>(null);
-
-  const contentHeight = useMemo(() => height / 1.3, [height]);
-
-  const handleChangeInputValue = useCallback(text => {
-    inputValue.current = text;
-  }, []);
+  const [selectedCategory, setSelectedCategory] = useState<
+    ICategory | undefined
+  >(() =>
+    stored_categories.find(
+      category =>
+        category.title.toUpperCase() === currentItem?.category.toUpperCase(),
+    ),
+  );
 
   const handleSubmit = useCallback(async () => {
-    console.log(inputValue.current.trim());
-    console.log(categorySelectRef.current?.selected);
-
-    if (
-      !inputValue.current.trim().length ||
-      !categorySelectRef.current?.selected
-    ) {
-      return;
-    }
-
     try {
       await database.action(async () => {
-        if (editItem) {
-          await editItem.update(data => {
+        if (currentItem) {
+          await currentItem.update(data => {
             Object.assign(data, {
-              title: inputValue.current.trim(),
-              category: categorySelectRef.current?.selected?.title,
+              title: title.trim(),
+              category: selectedCategory?.title,
             } as Item);
           });
         } else {
@@ -77,77 +100,88 @@ const SaveItem: React.FC<SaveItemProps> = ({
 
           await collection.create(item => {
             Object.assign(item, {
-              title: inputValue.current.trim(),
-              category: categorySelectRef.current?.selected?.title,
+              title: title.trim(),
+              category: selectedCategory?.title,
               shopping_list_id: shoppingListId,
             } as Item);
           });
         }
       });
 
-      inputValue.current = '';
-
-      bottomSheetRef.current?.close();
+      onClose();
     } catch (error) {
       Alert.alert('Ops, algo deu errado', 'Não foi possível salvar o item');
     }
-  }, [database, editItem, shoppingListId]);
+  }, [title, selectedCategory, database, currentItem, shoppingListId, onClose]);
 
   const handleCancel = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
-  const afterClosed = useCallback(() => {
-    if (onClose) {
-      onClose();
-    }
+    onClose();
   }, [onClose]);
+
+  const bottomSheetTitle = useMemo(
+    () => (currentItem ? 'Editar item' : 'Novo item'),
+    [currentItem],
+  );
+
+  const submitButtonDisabled = useMemo(() => {
+    const hasTitle = title.trim().length > 0;
+    const hasCategory = !!selectedCategory;
+
+    return !hasTitle || !hasCategory;
+  }, [title, selectedCategory]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (editItem) {
-        handleChangeInputValue(editItem?.title);
-      }
+      titleInputRef.current?.focus();
     }, 0);
-  }, [editItem, handleChangeInputValue]);
-
-  useEffect(() => {
-    if (visible) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 250);
-    }
-  }, [visible]);
+  }, []);
 
   return (
-    <BottomSheet ref={bottomSheetRef} isVisible={visible} onClose={afterClosed}>
-      <Container style={{ height: contentHeight }}>
-        <Title>{editItem ? 'Editar item' : 'Novo item'}</Title>
+    <Container>
+      <Title>{bottomSheetTitle}</Title>
 
-        <Input
-          ref={inputRef}
-          defaultValue={editItem?.title}
-          onChangeText={handleChangeInputValue}
-          placeholder="Qual o nome do item?"
-          placeholderTextColor={theme.texts.primaryLight}
+      <Input
+        ref={titleInputRef as any}
+        value={title}
+        onChangeText={setTitle}
+        placeholder="Qual o nome do item?"
+        placeholderTextColor={theme.texts.primaryLight}
+      />
+
+      <SelectContainer>
+        <SelectLabel>Categorias</SelectLabel>
+
+        <SelectList
+          keyboardShouldPersistTaps="handled"
+          data={stored_categories}
+          keyExtractor={item => item.key}
+          renderItem={({ item }) => (
+            <Category
+              category={item}
+              selected={item.key === selectedCategory?.key}
+              onSelect={() => setSelectedCategory(item)}
+            />
+          )}
+          ItemSeparatorComponent={() => <SelectListSeparator />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
         />
+      </SelectContainer>
 
-        <CategorySelect
-          ref={categorySelectRef}
-          selectedCategory={editItem?.category}
-        />
+      <ButtonsContainer>
+        <CancelButton hitSlop={hitSlop} onPress={handleCancel}>
+          Cancelar
+        </CancelButton>
 
-        <ButtonsContainer>
-          <CancelButton hitSlop={hitSlop} onPress={handleCancel}>
-            Cancelar
-          </CancelButton>
-
-          <SubmitButton hitSlop={hitSlop} onPress={handleSubmit}>
-            Salvar
-          </SubmitButton>
-        </ButtonsContainer>
-      </Container>
-    </BottomSheet>
+        <SubmitButton
+          hitSlop={hitSlop}
+          onPress={handleSubmit}
+          disabled={submitButtonDisabled}
+        >
+          Salvar
+        </SubmitButton>
+      </ButtonsContainer>
+    </Container>
   );
 };
 

@@ -28,12 +28,12 @@ export default class Item extends Model {
   @field('shopping_list_id')
   public shopping_list_id!: string;
 
-  @action async delete(): Promise<void> {
-    await super.destroyPermanently();
+  @action delete(): Promise<void> {
+    return super.destroyPermanently();
   }
 
-  @action async toggleCheck(): Promise<void> {
-    await this.update(item => {
+  @action toggleCheck(): Promise<void> {
+    return this.update(item => {
       Object.assign(item, { is_checked: !item.is_checked } as Item);
     });
   }

@@ -40,8 +40,6 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           </Label>
         </CountContainer>
       </Content>
-
-      {/* Check Icon */}
     </Container>
   );
 };

@@ -1,32 +1,30 @@
-import React, { useMemo, memo, useState, useCallback } from 'react';
+import React, { useMemo, memo, useState, useCallback, useRef } from 'react';
 import {
   Animated,
   NativeSyntheticEvent,
   NativeScrollEvent,
   Dimensions,
+  Alert,
+  StatusBar,
 } from 'react-native';
 import { Database, Q } from '@nozbe/watermelondb';
 import { withDatabase } from '@nozbe/watermelondb/DatabaseProvider';
 import withObservables from '@nozbe/with-observables';
+import { Modalize } from 'react-native-modalize';
 
 import Item, { ITEMS_TABLE_NAME } from '../../../../models/Item';
 
+import OptionsBottomSheet from '../../../../components/OptionsBottomSheet';
+import SaveItem from '../../../../components/SaveItem';
+
 import ScreenState from '../../../../components/ScreenState';
-import ScreenHeader from '../Header';
+import ScreenHeader from '../Toolbar';
 
 import CategoryHeader from './components/CategoryHeader';
+import ShoppingListHeader from './components/ShoppingListHeader';
 import CategoryItems from './components/CategoryItems';
 
-import {
-  Container,
-  Wrapper,
-  Header,
-  Title,
-  Description,
-  List,
-  Loader,
-  Spacer,
-} from './styles';
+import { Container, Wrapper, List, Loader, Spacer } from './styles';
 
 export interface Section {
   key: string;
@@ -43,11 +41,15 @@ interface ShoppingListItemsProps {
 
 const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
   items,
+  shoppingListId,
   shoppingListTitle,
 }) => {
   const SCREEN_HEIGHT = Dimensions.get('screen').height;
 
   const [scrollY] = useState(new Animated.Value(0));
+
+  const saveItemBottomSheetRef = useRef<Modalize>(null);
+  const optionBottomSheetRef = useRef<Modalize>(null);
 
   const handleScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -55,6 +57,58 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
     },
     [scrollY],
   );
+
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+
+  const handleDeleteItem = useCallback(async () => {
+    if (!selectedItem) {
+      return;
+    }
+
+    try {
+      await selectedItem.delete();
+
+      setSelectedItem(null);
+    } catch (error) {
+      Alert.alert(
+        'Falha ao deletar',
+        'Não foi possível deletar o item. Por favor, tente novamente',
+      );
+    }
+  }, [selectedItem]);
+
+  const handleOpenSaveItemBottomSheet = useCallback(() => {
+    saveItemBottomSheetRef.current?.open();
+  }, []);
+
+  const handleCloseSaveItemBottomSheet = useCallback(() => {
+    saveItemBottomSheetRef.current?.close();
+
+    setSelectedItem(null);
+  }, []);
+
+  const handleOpenOptionBottomSheet = useCallback((data: Item) => {
+    optionBottomSheetRef?.current?.open();
+
+    setSelectedItem(data);
+  }, []);
+
+  const handleOptionBottomSheetSelection = useCallback(
+    (type: 'edit' | 'delete') => {
+      optionBottomSheetRef?.current?.close();
+
+      if (type === 'edit') {
+        handleOpenSaveItemBottomSheet();
+      } else if (type === 'delete') {
+        handleDeleteItem();
+      }
+    },
+    [handleOpenSaveItemBottomSheet, handleDeleteItem],
+  );
+
+  const handleClearCurrentItem = useCallback(() => {
+    setSelectedItem(null);
+  }, []);
 
   const countLabel = useMemo(() => {
     if (!items) {
@@ -81,50 +135,11 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
     renderItems.push({
       key: 'SHOPPING_LIST_HEADER',
       render: () => (
-        <Header>
-          <Title
-            numberOfLines={2}
-            style={{
-              transform: [
-                {
-                  translateY: scrollY.interpolate({
-                    inputRange: [60, 90],
-                    outputRange: [0, -2],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-              opacity: scrollY.interpolate({
-                inputRange: [60, 90],
-                outputRange: [1, 0],
-                extrapolate: 'clamp',
-              }),
-            }}
-          >
-            {shoppingListTitle}
-          </Title>
-          <Description
-            numberOfLines={1}
-            style={{
-              transform: [
-                {
-                  translateY: scrollY.interpolate({
-                    inputRange: [60, 90],
-                    outputRange: [0, -2],
-                    extrapolate: 'clamp',
-                  }),
-                },
-              ],
-              opacity: scrollY.interpolate({
-                inputRange: [60, 90],
-                outputRange: [1, 0],
-                extrapolate: 'clamp',
-              }),
-            }}
-          >
-            {countLabel}
-          </Description>
-        </Header>
+        <ShoppingListHeader
+          title={shoppingListTitle}
+          description={countLabel}
+          scrollY={scrollY}
+        />
       ),
     });
 
@@ -153,7 +168,12 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
 
       renderItems.push({
         key: `${categoryKey}_ITEMS`,
-        render: () => <CategoryItems items={categoryItems} />,
+        render: () => (
+          <CategoryItems
+            items={categoryItems}
+            onItemLongPress={handleOpenOptionBottomSheet}
+          />
+        ),
       });
     });
 
@@ -164,7 +184,13 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
     );
 
     return { items: renderItems, stickyIndices };
-  }, [items, shoppingListTitle, scrollY, countLabel]);
+  }, [
+    items,
+    shoppingListTitle,
+    scrollY,
+    countLabel,
+    handleOpenOptionBottomSheet,
+  ]);
 
   const spacerHeight = useMemo(() => {
     const TOOLBAR_HEIGHT = 80;
@@ -188,54 +214,69 @@ const ShoppingListItems: React.FC<ShoppingListItemsProps> = ({
   if (!items || !listData)
     return (
       <Container>
+        <StatusBar barStyle="dark-content" />
         <Loader size={34} />
       </Container>
     );
 
   if (!items.length)
     return (
-      <Container>
-        <ScreenState
-          icon="subject"
-          title="A lista não possui itens"
-          description="Para adiciona-los clique em +"
-        />
-      </Container>
+      <>
+        <StatusBar barStyle="dark-content" />
+
+        <ScreenHeader title={shoppingListTitle} invertedColors />
+
+        <Container>
+          <ScreenState
+            icon="remove-shopping-cart"
+            title="A lista não possui itens"
+            description="O que acha de adicionar alguns?"
+          />
+        </Container>
+      </>
     );
 
   return (
-    <Wrapper>
-      <ScreenHeader
-        title={shoppingListTitle}
-        titleStyle={{
-          transform: [
-            {
-              translateY: scrollY.interpolate({
-                inputRange: [85, 110],
-                outputRange: [4, 0],
-                extrapolate: 'clamp',
-              }),
-            },
-          ],
-          opacity: scrollY.interpolate({
-            inputRange: [85, 110],
-            outputRange: [0, 1],
-            extrapolate: 'clamp',
-          }),
-        }}
-      />
+    <>
+      <StatusBar barStyle="light-content" />
 
-      <List
-        data={listData.items}
-        keyExtractor={item => item.key}
-        renderItem={({ item }) => item.render()}
-        stickyHeaderIndices={listData.stickyIndices}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={16}
-        ListFooterComponent={() => <Spacer height={spacerHeight} />}
-        onScroll={handleScroll}
-      />
-    </Wrapper>
+      <Wrapper>
+        <ScreenHeader title={shoppingListTitle} scrollY={scrollY} />
+
+        <List
+          data={listData.items}
+          overScrollMode="never"
+          keyExtractor={item => item.key}
+          renderItem={({ item }) => item.render()}
+          stickyHeaderIndices={listData.stickyIndices}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={16}
+          ListFooterComponent={() => <Spacer height={spacerHeight} />}
+          onScroll={handleScroll}
+        />
+      </Wrapper>
+
+      <Modalize
+        ref={saveItemBottomSheetRef}
+        handlePosition="inside"
+        adjustToContentHeight
+        onClosed={handleClearCurrentItem}
+      >
+        <SaveItem
+          shoppingListId={shoppingListId}
+          item={selectedItem}
+          onClose={handleCloseSaveItemBottomSheet}
+        />
+      </Modalize>
+
+      <Modalize
+        ref={optionBottomSheetRef}
+        handlePosition="inside"
+        adjustToContentHeight
+      >
+        <OptionsBottomSheet onSelect={handleOptionBottomSheetSelection} />
+      </Modalize>
+    </>
   );
 };
 

@@ -1,10 +1,13 @@
 import styled from 'styled-components/native';
+import { FlatList } from 'react-native';
+
+import { ICategory } from './index';
 
 import ButtonOutline, { ButtonOutlineProps } from '../ButtonOutline';
 import Button, { ButtonProps } from '../Button';
 
 export const Container = styled.View`
-  padding-top: 8px;
+  margin-top: 32px;
 `;
 
 export const Title = styled.Text`
@@ -21,6 +24,28 @@ export const Input = styled.TextInput`
   font-size: 16px;
   color: ${({ theme }) => theme.texts.primary};
   font-family: ${({ theme }) => theme.fonts.regular};
+`;
+
+export const SelectContainer = styled.View``;
+
+export const SelectLabel = styled.Text`
+  color: ${({ theme }) => theme.texts.primary};
+  font-family: ${({ theme }) => theme.fonts.bold};
+  font-size: 16px;
+  margin: 4px 16px;
+`;
+
+export const SelectList = styled(
+  FlatList as new () => FlatList<ICategory>,
+).attrs({
+  contentContainerStyle: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+})``;
+
+export const SelectListSeparator = styled.View`
+  width: 8px;
 `;
 
 export const ButtonsContainer = styled.View`

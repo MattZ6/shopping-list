@@ -5,7 +5,9 @@ import ButtonOutline, {
   ButtonOutlineProps,
 } from '../../../../components/ButtonOutline';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  margin-top: 32px;
+`;
 
 export const Title = styled.Text`
   font-size: 28px;
