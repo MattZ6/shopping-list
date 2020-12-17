@@ -1306,10 +1306,10 @@
     rxjs "^6.5.3"
     sql-escape-string "^1.1.0"
 
-"@nozbe/with-observables@1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.0.7.tgz#7109b533094701182f0064eaf5f17549b03fdbf8"
-  integrity sha512-wFQu9t1tL8C1D2JaVRC8kqiPQBvGd7/QgJKQtQtW6bIrvaaFbh86V2oVuffXgFFEh2KujPKKtgTqXA1GH6Ic+A==
+"@nozbe/with-observables@1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@nozbe/with-observables/-/with-observables-1.0.8.tgz#88a8c94bf7af34d7d5a9a14e94d7bc87e95279e7"
+  integrity sha512-E30cYOSjRqdZhwmH3bsKl8VA3Cko/apJxSwgYwRU5t2K8ixQTJG/aybmzzjEKlDsnevTSKvMveaq8D8rFfuwsA==
   dependencies:
     hoist-non-react-statics "^3.3.2"
     rxjs "^6.6.3"
