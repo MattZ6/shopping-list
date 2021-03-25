@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@nozbe/watermelondb": "0.21.0",
-    "@nozbe/with-observables": "1.0.8",
+    "@nozbe/with-observables": "1.2.0",
     "@react-native-community/checkbox": "0.5.7",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "5.9.3",
