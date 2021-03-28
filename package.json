@@ -33,7 +33,7 @@
     "@babel/plugin-proposal-decorators": "7.13.5",
     "@babel/runtime": "7.13.10",
     "@react-native-community/eslint-config": "2.0.0",
-    "@types/jest": "26.0.21",
+    "@types/jest": "26.0.22",
     "@types/react-native": "0.64.0",
     "@types/react-native-vector-icons": "6.4.6",
     "@types/react-test-renderer": "17.0.1",
